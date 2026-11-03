@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Greetings from Deadline Island</title>
+
+<!-- Link preview text for WhatsApp / Telegram / Discord. The stress starts before they even click. -->
+<meta property="og:title" content="A postcard from Deadline Island 📬">
+<meta property="og:description" content="Poster on 18 Nov. SDT4202 on 20 Nov. Viva on 23 Nov. Enjoy the trip!">
+<meta name="description" content="Poster on 18 Nov. SDT4202 on 20 Nov. Viva on 23 Nov. Enjoy the trip!">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏝️</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;900&family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+  /* ---------- Colour tokens ---------- */
+  :root {
+    --sky: #9ED8F0;
+    --ink: #10304D;
+    --sun: #FFD34D;
+    --sea: #0A6E78;
+    --sunset: #C2410C;
+    --alarm: #B4182D;
+    --on-stamp: #FFFFFF;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --sky: #0C2236; --ink: #F6E7C9; --sun: #F6E7C9; color-scheme: dark; }
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh;
+    background: var(--sky); color: var(--ink);
+    font-family: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 3rem 1.25rem 2.5rem;
+    overflow-x: hidden;
+  }
+
+  /* ---------- Postcard header ---------- */
+  header { position: relative; text-align: center; margin-bottom: 3rem; }
+  header::before {               /* the sun (or moon in dark mode) */
+    content: ""; position: absolute; z-index: -1;
+    width: clamp(10rem, 40vw, 18rem); aspect-ratio: 1; border-radius: 50%;
+    background: var(--sun); opacity: .85;
+    top: 50%; left: 50%; translate: -50% -50%;
+  }
+  body { isolation: isolate; }
+  .greeting { font-family: "Pacifico", "Brush Script MT", cursive; font-size: clamp(1.5rem, 4.5vw, 2.4rem); margin: 0; }
+  h1 {
+    font-weight: 900; font-size: clamp(2.8rem, 11vw, 6.2rem);
+    line-height: .9; letter-spacing: -0.03em; margin: .2rem 0 1rem;
+  }
+  .sub { max-width: 30rem; margin: 0 auto; font-size: 1.1rem; line-height: 1.5; }
+
+  /* ---------- Stamps: perforated edges with a CSS mask ---------- */
+  .stamps {
+    display: grid; gap: 2rem; width: 100%; max-width: 62rem;
+    grid-template-columns: repeat(auto-fit, minmax(16.5rem, 1fr));
+  }
+  .stamp {
+    --r: 7px;
+    padding: calc(2 * var(--r));
+    background: var(--c);
+    color: var(--on-stamp);
+    rotate: var(--tilt);
+    -webkit-mask:
+      radial-gradient(var(--r), #0000 98%, #000) round calc(-1.5 * var(--r)) calc(-1.5 * var(--r)) / calc(3 * var(--r)) calc(3 * var(--r)),
+      linear-gradient(#000 0 0) no-repeat 50% / calc(100% - 3 * var(--r)) calc(100% - 3 * var(--r));
+    mask:
+      radial-gradient(var(--r), #0000 98%, #000) round calc(-1.5 * var(--r)) calc(-1.5 * var(--r)) / calc(3 * var(--r)) calc(3 * var(--r)),
+      linear-gradient(#000 0 0) no-repeat 50% / calc(100% - 3 * var(--r)) calc(100% - 3 * var(--r));
+  }
+  .inner { border: 2px solid rgb(255 255 255 / .55); padding: 1.25rem 1.1rem 1.1rem; height: 100%; }
+  .code { font-weight: 600; font-size: .95rem; margin: 0; opacity: .85; }
+  .stamp h2 { font-size: 1.3rem; line-height: 1.2; margin: .3rem 0 .2rem; }
+  .date { margin: 0 0 1rem; }
+  .count { font-weight: 900; font-variant-numeric: tabular-nums; margin: 0; line-height: 1; }
+  .days { font-size: 3.6rem; letter-spacing: -0.03em; }
+  .days small { font-size: 1.1rem; font-weight: 600; letter-spacing: 0; margin-left: .3rem; }
+  .clock { display: block; font-size: 1.6rem; margin-top: .25rem; }
+  .clock span { opacity: .7; font-size: 1.1rem; }
+  .mood { margin: 1rem 0 0; font-size: 1rem; line-height: 1.4; }
+
+  /* ---------- Footer guilt ---------- */
+  footer { text-align: center; margin-top: 3.5rem; max-width: 34rem; }
+  #guilt { font-family: "Pacifico", "Brush Script MT", cursive; font-size: clamp(1.25rem, 4vw, 1.7rem); min-height: 2.6em; margin: 0 0 1rem; }
+  #fun { font-variant-numeric: tabular-nums; margin: 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="greeting">Greetings from</p>
+  <h1>Deadline Island</h1>
+  <p class="sub">Hope the trip is going great! Just a little something from back home.</p>
+</header>
+
+<section class="stamps" id="stamps"></section>
+
+<footer>
+  <p id="guilt" aria-live="polite"></p>
+  <p id="fun"></p>
+</footer>
+
+<script>
+  // ---------- Edit your deadlines here ----------
+  // "+08:00" pins the time to Malaysia, so the countdown is right even if they're in another timezone.
+  const DEADLINES = [
+    { code: "FYP4202", title: "Pre-viva poster presentation",              due: "2026-11-18T00:00:00+08:00", colour: "--sea",    tilt: "-2deg" },
+    { code: "SDT4202", title: "Individual assignment (Turnitin + final report)", due: "2026-11-20T00:00:00+08:00", colour: "--sunset", tilt: "1.5deg" },
+    { code: "FYP4202", title: "Full report + viva presentation",           due: "2026-11-23T00:00:00+08:00", colour: "--alarm",  tilt: "-1deg" },
+  ];
+
+  const GUILT = [
+    "The viva panel is not on holiday.",
+    "Turnitin doesn't care about your tan.",
+    "Your poster won't design itself. I checked.",
+    "Every sunset is one less day for the report.",
+    "Fun fact: the deadline didn't move while you were swimming.",
+    "Somewhere, a blank Word document is waiting for you.",
+  ];
+
+  function moodFor(daysLeft) {
+    if (daysLeft < 0)  return "Done. Hopefully.";
+    if (daysLeft < 1)  return "It's today. Why are you on a beach?";
+    if (daysLeft < 4)  return "Pack your bags. Now.";
+    if (daysLeft < 8)  return "This is the week you start panicking.";
+    if (daysLeft < 15) return "Two weeks goes much faster on holiday.";
+    return "Plenty of time. That's what they all say.";
+  }
+
+  // ---------- Build one stamp per deadline ----------
+  const container = document.getElementById("stamps");
+  const pad = (n, len = 2) => String(n).padStart(len, "0");
+
+  const cards = DEADLINES.map((d) => {
+    const el = document.createElement("article");
+    el.className = "stamp";
+    el.style.setProperty("--c", `var(${d.colour})`);
+    el.style.setProperty("--tilt", d.tilt);
+
+    const dueDate = new Date(d.due);
+    const pretty = dueDate.toLocaleDateString("en-MY", {
+      weekday: "long", day: "numeric", month: "long", timeZone: "Asia/Kuala_Lumpur",
+    });
+
+    el.innerHTML = `
+      <div class="inner">
+        <p class="code">${d.code}</p>
+        <h2>${d.title}</h2>
+        <p class="date">${pretty}</p>
+        <p class="count"><span class="days"></span><span class="clock"></span></p>
+        <p class="mood"></p>
+      </div>`;
+    container.appendChild(el);
+
+    return {
+      due: dueDate.getTime(),
+      days: el.querySelector(".days"),
+      clock: el.querySelector(".clock"),
+      mood: el.querySelector(".mood"),
+    };
+  });
+
+  // ---------- Tick every animation frame (hundredths of a second = maximum stress) ----------
+  const opened = Date.now();
+  const funEl = document.getElementById("fun");
+
+  function tick() {
+    const now = Date.now();
+
+    for (const c of cards) {
+      const ms = c.due - now;
+      if (ms <= 0) {
+        c.days.innerHTML = "0<small>days</small>";
+        c.clock.textContent = "Time’s up";
+      } else {
+        const d = Math.floor(ms / 86400000);
+        const h = Math.floor(ms / 3600000) % 24;
+        const m = Math.floor(ms / 60000) % 60;
+        const s = Math.floor(ms / 1000) % 60;
+        const cs = Math.floor(ms / 10) % 100;
+        c.days.innerHTML = `${d}<small>${d === 1 ? "day" : "days"}</small>`;
+        c.clock.innerHTML = `${pad(h)}:${pad(m)}:${pad(s)}<span>.${pad(cs)}</span>`;
+      }
+      c.mood.textContent = moodFor(ms / 86400000);
+    }
+
+    const t = Math.floor((now - opened) / 1000);
+    funEl.textContent = `Time you’ve spent having fun instead of working since opening this page: ${pad(Math.floor(t / 3600))}:${pad(Math.floor(t / 60) % 60)}:${pad(t % 60)}`;
+
+    requestAnimationFrame(tick);
+  }
+  tick();
+
+  // ---------- Rotate the guilt message every 5 seconds ----------
+  const guiltEl = document.getElementById("guilt");
+  let g = Math.floor(Math.random() * GUILT.length);
+  guiltEl.textContent = GUILT[g];
+  setInterval(() => {
+    g = (g + 1) % GUILT.length;
+    guiltEl.textContent = GUILT[g];
+  }, 5000);
+</script>
+</body>
+</html>
