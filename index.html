@@ -9,11 +9,13 @@
 <meta property="og:title" content="A postcard from Deadline Island 📬">
 <meta property="og:description" content="Poster on 18 Nov. SDT4202 on 20 Nov. Viva on 23 Nov. Enjoy the trip!">
 <meta name="description" content="Poster on 18 Nov. SDT4202 on 20 Nov. Viva on 23 Nov. Enjoy the trip!">
+<!-- Ask search engines not to list this page, so friends' names and photos don't show up in Google -->
+<meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏝️</text></svg>">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;900&family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;900&family=Creepster&family=Pacifico&display=swap" rel="stylesheet">
 
 <style>
   /* ---------- Colour tokens ---------- */
@@ -25,10 +27,12 @@
     --sunset: #C2410C;
     --alarm: #B4182D;
     --on-stamp: #FFFFFF;
+    --card: #FFFDF7;
+    --star: #D99A00;
     color-scheme: light;
   }
   @media (prefers-color-scheme: dark) {
-    :root { --sky: #0C2236; --ink: #F6E7C9; --sun: #F6E7C9; color-scheme: dark; }
+    :root { --sky: #0C2236; --ink: #F6E7C9; --sun: #F6E7C9; --card: #163552; --star: #FFD34D; color-scheme: dark; }
   }
 
   *, *::before, *::after { box-sizing: border-box; }
@@ -41,21 +45,57 @@
     overflow-x: hidden;
   }
 
-  /* ---------- Postcard header ---------- */
-  header { position: relative; text-align: center; margin-bottom: 3rem; }
-  header::before {               /* the sun (or moon in dark mode) */
+  /* ---------- Horror header: always night, in light and dark mode ---------- */
+  header {
+    --blood: #8E1119;
+    --bone: #EFE4CF;
+    position: relative;
+    isolation: isolate;            /* keeps the moon and fog layered above the header's own background */
+    align-self: stretch;
+    margin: -3rem -1.25rem 3.5rem; /* bleed to the edges of the screen */
+    padding: 4.5rem 1.25rem 6.5rem;
+    overflow: hidden;
+    text-align: center;
+    color: var(--bone);
+    background:
+      radial-gradient(60% 55% at 50% 42%, rgb(142 17 25 / .35), transparent 70%),
+      linear-gradient(#08070D, #15090E);
+  }
+  header::before {                 /* blood moon */
     content: ""; position: absolute; z-index: -1;
-    width: clamp(10rem, 40vw, 18rem); aspect-ratio: 1; border-radius: 50%;
-    background: var(--sun); opacity: .85;
-    top: 50%; left: 50%; translate: -50% -50%;
+    width: clamp(11rem, 42vw, 19rem); aspect-ratio: 1; border-radius: 50%;
+    top: 46%; left: 50%; translate: -50% -50%;
+    background: radial-gradient(circle at 38% 35%, #B81C25, var(--blood) 60%, #5A0910);
+    box-shadow: 0 0 90px 20px rgb(184 28 37 / .35);
   }
-  body { isolation: isolate; }
-  .greeting { font-family: "Pacifico", "Brush Script MT", cursive; font-size: clamp(1.5rem, 4.5vw, 2.4rem); margin: 0; }
+  header::after {                  /* fog fading into the rest of the page */
+    content: ""; position: absolute; z-index: -1; left: 0; right: 0; bottom: 0; height: 6rem;
+    background: linear-gradient(transparent, var(--sky));
+  }
+  .greeting {
+    font-family: "Pacifico", "Brush Script MT", cursive;
+    font-size: clamp(1.4rem, 4.5vw, 2.2rem); margin: 0;
+    text-shadow: 0 2px 10px rgb(0 0 0 / .9);
+  }
   h1 {
-    font-weight: 900; font-size: clamp(2.8rem, 11vw, 6.2rem);
-    line-height: .9; letter-spacing: -0.03em; margin: .2rem 0 1rem;
+    font-family: "Creepster", "Archivo", Impact, sans-serif; font-weight: 400;
+    font-size: clamp(3.2rem, 13vw, 7.5rem); line-height: .95; letter-spacing: .03em;
+    margin: .3rem 0 1.2rem;
+    text-shadow: 0 0 18px rgb(0 0 0 / .85), 0 4px 0 #3A0508;
+    animation: flicker 7s infinite;
   }
-  .sub { max-width: 30rem; margin: 0 auto; font-size: 1.1rem; line-height: 1.5; }
+  @keyframes flicker {             /* the title briefly cuts out, like a dying light */
+    0%, 90%, 100% { opacity: 1; }
+    91% { opacity: .3; }
+    92% { opacity: 1; }
+    94% { opacity: .5; }
+    95% { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) { h1 { animation: none; } }
+  .sub {
+    max-width: 30rem; margin: 0 auto; font-size: 1.1rem; line-height: 1.5;
+    text-shadow: 0 1px 8px rgb(0 0 0 / .95);
+  }
 
   /* ---------- Stamps: perforated edges with a CSS mask ---------- */
   .stamps {
@@ -86,6 +126,52 @@
   .clock span { opacity: .7; font-size: 1.1rem; }
   .mood { margin: 1rem 0 0; font-size: 1rem; line-height: 1.4; }
 
+  /* ---------- Reviews slideshow ---------- */
+  .reviews { width: 100%; max-width: 62rem; margin: 0 0 4.5rem; text-align: center; }
+  .reviews h2 { font-size: clamp(1.7rem, 5vw, 2.5rem); font-weight: 900; letter-spacing: -0.02em; line-height: 1.1; margin: 0 0 .5rem; }
+  .rating { margin: 0 0 1.75rem; }
+  .stars { color: var(--star); letter-spacing: .12em; font-size: 1.2rem; }
+
+  .carousel { position: relative; }
+  .viewport { overflow: hidden; border-radius: 1.25rem; background: var(--card); touch-action: pan-y; user-select: none; }
+  .track { display: flex; transition: transform .45s ease; }
+  .slide {
+    flex: 0 0 100%; display: grid; grid-template-columns: auto 1fr; gap: 2.5rem; align-items: center;
+    padding: 2.5rem clamp(1.5rem, 6vw, 4.5rem); text-align: left;
+  }
+  .polaroid {
+    margin: 0; width: 12rem; padding: .7rem .7rem 0; rotate: -3deg;
+    background: #FFFFFF; color: #10304D; text-align: center;
+    box-shadow: 0 8px 20px rgb(16 48 77 / .25);
+  }
+  .polaroid img, .initials { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; pointer-events: none; }
+  .initials { display: grid; place-items: center; background: var(--sea); color: #FFFFFF; font-weight: 900; font-size: 3.5rem; }
+  .polaroid figcaption { font-family: "Pacifico", "Brush Script MT", cursive; font-size: 1.3rem; padding: .45rem 0 .7rem; }
+  blockquote { margin: 0; }
+  blockquote p { font-size: clamp(1.35rem, 3.2vw, 1.95rem); font-weight: 600; line-height: 1.3; margin: .5rem 0 1rem; }
+  .who { font-size: 1rem; font-weight: 600; margin: 0; }
+  .who span { display: block; font-weight: 400; opacity: .8; }
+
+  .arrow {
+    position: absolute; top: 50%; translate: 0 -50%;
+    width: 2.75rem; height: 2.75rem; border-radius: 50%; border: none;
+    background: var(--ink); color: var(--sky); font: 900 1.5rem/1 "Archivo", sans-serif; cursor: pointer;
+  }
+  .prev { left: -1.1rem; }
+  .next { right: -1.1rem; }
+  .dots { display: flex; justify-content: center; gap: .7rem; margin-top: 1.25rem; }
+  .dots button { width: 1rem; height: 1rem; padding: 0; border-radius: 50%; border: 2px solid var(--ink); background: transparent; cursor: pointer; }
+  .dots button[aria-current="true"] { background: var(--ink); }
+  button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+  @media (max-width: 40rem) {
+    .slide { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 1.5rem; }
+    .arrow { top: 9rem; }
+    .prev { left: .5rem; }
+    .next { right: .5rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { .track { transition: none; } }
+
   /* ---------- Footer guilt ---------- */
   footer { text-align: center; margin-top: 3.5rem; max-width: 34rem; }
   #guilt { font-family: "Pacifico", "Brush Script MT", cursive; font-size: clamp(1.25rem, 4vw, 1.7rem); min-height: 2.6em; margin: 0 0 1rem; }
@@ -97,8 +183,19 @@
 <header>
   <p class="greeting">Greetings from</p>
   <h1>Deadline Island</h1>
-  <p class="sub">Hope the trip is going great! Just a little something from back home.</p>
+  <p class="sub">Hope the trip is going great. We’ll be waiting for you when you get back.</p>
 </header>
+
+<section class="reviews" aria-labelledby="reviews-title">
+  <h2 id="reviews-title">Loved by people currently on holiday</h2>
+  <p class="rating"><span class="stars" aria-hidden="true">★★★★★</span><br>5.0 from every single verified traveller</p>
+  <div class="carousel" aria-roledescription="carousel" aria-label="Reviews">
+    <div class="viewport"><div class="track" id="track"></div></div>
+    <button class="arrow prev" id="prev" type="button" aria-label="Previous review">‹</button>
+    <button class="arrow next" id="next" type="button" aria-label="Next review">›</button>
+  </div>
+  <div class="dots" id="dots"></div>
+</section>
 
 <section class="stamps" id="stamps"></section>
 
@@ -121,7 +218,7 @@
     "Turnitin doesn't care about your tan.",
     "Your poster won't design itself. I checked.",
     "Every sunset is one less day for the report.",
-    "Fun fact: the deadline didn't move while you were swimming.",
+    "The deadline didn't move while you were swimming.",
     "Somewhere, a blank Word document is waiting for you.",
   ];
 
@@ -206,6 +303,90 @@
     g = (g + 1) % GUILT.length;
     guiltEl.textContent = GUILT[g];
   }, 5000);
+
+  // ---------- Reviews: edit nicknames, photos and quotes here ----------
+  // Put the photos in a "photos" folder next to index.html.
+  // File names are case-sensitive on GitHub Pages: "Ali.JPG" and "ali.jpg" are different files.
+  // Add or remove entries freely; the slides and dots adjust automatically.
+  const REVIEWS = [
+    { name: "Mr. Jet", photo: "photos/jetseng.jpg", quote: "I've used this website and so far it's the best I know." },
+    { name: "De Walton", photo: "photos/walton.jpg", quote: "Opened it on the beach. Closed it on the beach. Cried on the beach." },
+    { name: "Da Tok", photo: "photos/yewbin.jpg", quote: "Five stars. Would panic again." },
+    { name: "Jobroseph", photo: "photos/joseph.jpg", quote: "Thanks to this site, I started my poster on the plane." },
+    { name: "I Miss Her", photo: "photos/zhenher.jpg", quote: "10/10 accurate deadlines. 10/10 cried a river." },
+  ];
+
+  const track = document.getElementById("track");
+  const dotsEl = document.getElementById("dots");
+  let current = 0;
+
+  REVIEWS.forEach((r, i) => {
+    const slide = document.createElement("div");
+    slide.className = "slide";
+    slide.setAttribute("role", "group");
+    slide.setAttribute("aria-roledescription", "slide");
+    slide.setAttribute("aria-label", `${i + 1} of ${REVIEWS.length}`);
+    slide.innerHTML = `
+      <figure class="polaroid">
+        <img src="${r.photo}" alt="${r.name}">
+        <figcaption>${r.name}</figcaption>
+      </figure>
+      <blockquote>
+        <span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+        <p>“${r.quote}”</p>
+        <p class="who">${r.name}<span>Verified traveller ✈️</span></p>
+      </blockquote>`;
+
+    // If a photo is missing or the name is mistyped, show initials instead of a broken image
+    const img = slide.querySelector("img");
+    img.addEventListener("error", () => {
+      const box = document.createElement("div");
+      box.className = "initials";
+      box.textContent = r.name.split(/\s+/).map((w) => w[0]).join("").slice(0, 2).toUpperCase();
+      img.replaceWith(box);
+    });
+    track.appendChild(slide);
+
+    const dot = document.createElement("button");
+    dot.type = "button";
+    dot.setAttribute("aria-label", `Show review ${i + 1}`);
+    dot.addEventListener("click", () => { goTo(i); restartAuto(); });
+    dotsEl.appendChild(dot);
+  });
+
+  // Slide the whole track left by 100% per slide
+  function goTo(i) {
+    current = (i + REVIEWS.length) % REVIEWS.length;   // wraps around at both ends
+    track.style.transform = `translateX(-${current * 100}%)`;
+    [...dotsEl.children].forEach((d, j) => d.setAttribute("aria-current", j === current ? "true" : "false"));
+  }
+  document.getElementById("prev").addEventListener("click", () => { goTo(current - 1); restartAuto(); });
+  document.getElementById("next").addEventListener("click", () => { goTo(current + 1); restartAuto(); });
+
+  // Swipe left/right on phones
+  const viewport = track.parentElement;
+  let startX = null;
+  viewport.addEventListener("pointerdown", (e) => { startX = e.clientX; });
+  viewport.addEventListener("pointerup", (e) => {
+    if (startX === null) return;
+    const dx = e.clientX - startX;
+    if (Math.abs(dx) > 40) { goTo(current + (dx < 0 ? 1 : -1)); restartAuto(); }
+    startX = null;
+  });
+
+  // Auto-advance every 6 seconds; pause while the mouse is over it, and skip for reduced-motion users
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const carousel = document.querySelector(".carousel");
+  let timer = null;
+  function restartAuto() {
+    clearInterval(timer);
+    if (!reduceMotion) timer = setInterval(() => goTo(current + 1), 6000);
+  }
+  carousel.addEventListener("mouseenter", () => clearInterval(timer));
+  carousel.addEventListener("mouseleave", restartAuto);
+
+  goTo(0);
+  restartAuto();
 </script>
 </body>
 </html>
